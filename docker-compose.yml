@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app  
+    volumes:
+      - ./node:/usr/src/app
+    command: npm start
+    ports:
+      - 3000:3000
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: npm start
+    working_dir: /usr/src/app
+    volumes:
+      - ./reactapp:/usr/src/app
+    ports:
+      - 8080:8080
+    links:
+      - mongo:mongo
